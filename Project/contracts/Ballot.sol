@@ -45,7 +45,7 @@ contract Ballot {
     }
 
     // Give `voter` the right to vote on this ballot.
-    // May only be called by `chairperson`.
+    // May only be called by `chairperson`.cha
     function giveRightToVote(address voter) external {
         // If the first argument of `require` evaluates
         // to `false`, execution terminates and all
@@ -140,5 +140,10 @@ contract Ballot {
     // returns the name of the winner
     function winnerName() external view returns (bytes32 winnerName_) {
         winnerName_ = proposals[winningProposal()].name;
+    }
+
+    // Returns the proposals array length
+    function getProposalsLength() external view returns (uint256 proposalsLength_) {
+        proposalsLength_ = proposals.length;
     }
 }
