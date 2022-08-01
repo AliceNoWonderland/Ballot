@@ -32,6 +32,8 @@ async function main() {
 
   const voterAddress = wallet.address;
   const voter = await ballotContract.voters(voterAddress);
+
+  // Voter has voting rights when the voting weight = 1
   if (!voter.weight.eq(1))
     throw new Error(`This address ${voterAddress} has no right to vote`);
 

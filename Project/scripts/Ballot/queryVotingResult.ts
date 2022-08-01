@@ -28,11 +28,14 @@ async function main() {
     signer
   ) as Ballot;
 
+  // Query the winning proposal (does not include result)
   const winningProposal = await ballotContract.winnerName();
   console.log(
     `Winning proposal is ${ethers.utils.parseBytes32String(winningProposal)}`
   );
 
+
+  // Query the text and result of a proposal, in addition to the winning proposal text done above
   const queryProposal = process.argv[3];
 
   if (queryProposal) {
