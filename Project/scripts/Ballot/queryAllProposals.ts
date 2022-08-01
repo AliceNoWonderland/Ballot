@@ -19,8 +19,6 @@ async function main() {
   }
   if (process.argv.length < 3) throw new Error("Ballot address missing");
   const ballotAddress = process.argv[2];
-  if (process.argv.length < 4) throw new Error("Proposal index missing");
-  const proposalIndex = process.argv[3];
   console.log(
     `Attaching ballot contract interface to address ${ballotAddress}`
   );
@@ -30,21 +28,18 @@ async function main() {
     signer
   ) as Ballot;
 
-  const voterAddress = wallet.address;
-  const voter = await ballotContract.voters(voterAddress);
+  // Ballot question
+  console.log("Ballot: What should we have for dinner?");
 
-  // Voter has voting rights when the voting weight = 1
-  if (!voter.weight.eq(1))
-    throw new Error(`This address ${voterAddress} has no right to vote`);
-
-  if (voter.voted)
-    throw new Error(`This address ${voterAddress} has already voted`);
-
-  const tx = await ballotContract.vote(Number(proposalIndex));
-  console.log("Awaiting confirmations");
-  await tx.wait();
-
-  console.log("Vote successfully");
+  // Query all proposals
+  console.log("Querying proposals");
+  const proposalsLength = await ballotContract.getProposalsLength();
+  for (let i = 0; i < Number(proposalsLength); i++) {
+    const proposal = await ballotContract.proposals(i);
+    const proposalString = ethers.utils.parseBytes32String(proposal.name);
+    console.log(`${i}: ${proposalString}`);
+  }
+  console.log("End of proposals.");
 }
 
 main().catch((error) => {
