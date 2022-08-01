@@ -141,4 +141,8 @@ contract Ballot {
     function winnerName() external view returns (bytes32 winnerName_) {
         winnerName_ = proposals[winningProposal()].name;
     }
+
+    function getProposalsLength() external view returns (uint256 proposalsLength_) {
+        proposalsLength_ = proposals.length;
+    }
 }
