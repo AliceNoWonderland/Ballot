@@ -31,9 +31,6 @@ async function main() {
     ballotJson.abi,
     signer
   ) as Ballot;
-  const chairpersonAddress = await ballotContract.chairperson();
-  if (chairpersonAddress !== signer.address)
-    throw new Error("Caller is not the chairperson for this contract");
 
   const proposal = await ballotContract.proposals(Number(proposalIndex));
   console.log("Querying proposals");
